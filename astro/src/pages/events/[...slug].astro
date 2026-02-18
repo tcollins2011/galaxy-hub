@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/layout/PageHeader.astro';
 import ContentWithToc from '../../components/layout/ContentWithToc.astro';
+import { getInsert } from '../../utils/content';
 
 // Import MDX components for embedded content
 import VegaEmbed from '../../components/mdx/VegaEmbed.astro';
@@ -39,10 +40,22 @@ const { Content, headings } = await render(event);
 
 const { title, date, end, location, tags = [], tease, external_url, contacts = [], autotoc } = event.data;
 
+// Load the event header insert (banner + nav) at the template level for .md event pages.
+// .mdx pages (hasComponents: true) have <Insert> in their content and handle this themselves.
+const eventData = event.data as Record<string, unknown>;
+let HeaderContent: any = null;
+if (!eventData.hasComponents) {
+  const eventRoot = event.data.slug.split('/').slice(0, 2).join('/');
+  const headerInsert = await getInsert(`${eventRoot}/header`);
+  if (headerInsert) {
+    const { Content: HC } = await render(headerInsert);
+    HeaderContent = HC;
+  }
+}
+
 if (external_url) {
   return Astro.redirect(external_url);
 }
-const eventData = event.data as Record<string, unknown>;
 const fundingIds = extractFunding(eventData);
 const supporters = await resolveSupporters(fundingIds);
 const authorIds = extractAuthors(eventData);
@@ -282,6 +295,12 @@ const editUrl = `https://github.com/galaxyproject/galaxy-hub/edit/master/content
         }
       </div>
     </PageHeader>
+
+    {HeaderContent && (
+      <div class="event-subnav">
+        <HeaderContent />
+      </div>
+    )}
 
     <ContentWithToc headings={headings} autotoc={autotoc}>
       <Content components={components} />

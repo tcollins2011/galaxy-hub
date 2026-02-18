@@ -89,6 +89,8 @@
 
   &.card-img-top {
     width: 100%;
+    height: 180px;
+    object-fit: cover;
     border-top-left-radius: calc(0.5rem - 1px);
     border-top-right-radius: calc(0.5rem - 1px);
   }
@@ -994,4 +996,54 @@
 /* Accessibility - hide from screen readers when decorative */
 [aria-hidden='true'] {
   speak: never;
+}
+
+/* ==========================================================================
+   Event Sub-page Navigation (header.md inserts: banner + linkbox-horizontal)
+   Used by GCC, GCCBOSC, and other multi-page events
+   ========================================================================== */
+
+/* Wrapper rendered by the event page template for header inserts */
+.event-subnav img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Horizontal navigation bar (replaces Gridsome linkbox-horizontal) */
+.linkbox-horizontal {
+  background-color: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border: 1px solid #dee2e6;
+  border-bottom: 3px solid #25537b;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.linkbox-horizontal > p {
+  margin: 0;
+  padding: 0;
+}
+
+.linkbox-horizontal a {
+  color: #25537b;
+  text-decoration: none;
+  padding: 0 0.25rem;
+}
+
+.linkbox-horizontal a:hover {
+  color: #d19e00;
+  text-decoration: underline;
+}
+
+/* Remove paragraph margins around banner images and nav links */
+.trim-p > p {
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.trim-p.linkbox-horizontal > p {
+  line-height: normal;
 }

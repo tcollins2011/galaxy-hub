@@ -193,6 +193,14 @@ export async function getInsert(slug: string): Promise<InsertEntry | undefined> 
     for (const insert of inserts) {
       const key = normalizeSlug(insert.data.slug);
       insertCache.set(key, insert);
+      // Also index by natural slug if it differs (e.g. "gcc2026" vs "gcc-2026")
+      // so that <Insert name="/events/gcc2026/header"> finds "events/gcc-2026/header"
+      if (insert.data.naturalSlug) {
+        const naturalKey = normalizeSlug(insert.data.naturalSlug as string);
+        if (naturalKey !== key) {
+          insertCache.set(naturalKey, insert);
+        }
+      }
     }
   }
 
