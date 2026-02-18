@@ -6,10 +6,10 @@ autotoc: false
 
 # Code of Conduct
 
-<p class="lead">
+<!-- <p class="lead"> -->
 We are committed to providing a welcoming and inspiring community for all.
 If you participate in GCC2026, then you too are committed to this goal.
-</p>
+<!-- </p> -->
 
 GCC2026 will provide a harassment-free conference experience for everyone,
 regardless of race, gender, gender identity and expression, sexual orientation,

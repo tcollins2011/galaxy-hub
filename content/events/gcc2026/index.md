@@ -50,7 +50,7 @@ subsites: [all, all-eu]
 <div class="card-deck lead">
 
   <!-- About GCC -->
-  <div class="card" style="min-width: 30%; max-width: 32.2%;">
+  <div class="card" style="min-width: 48%; max-width: 48%;">
     <img src="/images/events/gcc2026/cartoon-conference-v2.png" class="card-img-top" alt="GCC conference series" />
     <div class="card-header">About GCC conference series</div>
 
@@ -69,7 +69,7 @@ from top research institutions worldwide.**
   </div>
 
   <!-- Highlights -->
-  <div class="card" style="min-width: 30%; max-width: 32.2%;">
+  <div class="card" style="min-width: 48%; max-width: 48%;">
     <img src="/images/events/gcc2026/cartoon-highlights.png" class="card-img-top" alt="Highlighted Talks" />
     <div class="card-header">Highlighted Talks</div>
 
@@ -91,7 +91,7 @@ page](/events/gcc2026/highlights/) to learn more about these executive-level pre
   </div>
 
   <!-- Fellowships -->
-  <div class="card" style="min-width: 30%; max-width: 32.2%;">
+  <div class="card" style="min-width: 48%; max-width: 48%;">
     <img src="/images/events/gcc2026/cartoon-fellowship.png" class="card-img-top" alt="GCC2026 Fellowships" />
     <div class="card-header">GCC2026 Fellowships</div>
 
@@ -99,7 +99,7 @@ We are pleased to offer several fellowship opportunities to support attendance a
   </div>
 
   <!-- Host -->
-  <div class="card" style="min-width: 30%; max-width: 32.2%">
+  <div class="card" style="min-width: 48%; max-width: 48%;">
     <img src="/images/events/gcc2026/cartoon-clermont-auvergne-v2.png" class="card-img-top" alt="GCC2026 host" />
     <div class="card-header">GCC2026 Host</div>
 
@@ -120,7 +120,7 @@ The Galaxy project is thrilled to be hosted by UCA!
   </div>
 
   <!-- Cofest -->
-  <div class="card" style="min-width: 30%; max-width: 32.2%">
+  <div class="card" style="min-width: 48%; max-width: 48%;">
     <img src="/images/events/gcc2026/cartoon-cofest.png" class="card-img-top" alt="GCC2026 cofest" />
     <div class="card-header">GCC2026 CoFest</div>
 
@@ -133,7 +133,7 @@ Join us at **[CoFest](/events/gcc2026/cofest/)**
   </div>
 
   <!-- Destination -->
-  <div class="card" style="min-width: 30%; max-width: 32.2%;">
+  <div class="card" style="min-width: 48%; max-width: 48%;">
     <img src="/images/events/gcc2026/cartoon-clermont-ferrand-v2.png" class="card-img-top" alt="Clermont-Ferrand, France" />
     <div class="card-header">Clermont-Ferrand, France</div>
 
