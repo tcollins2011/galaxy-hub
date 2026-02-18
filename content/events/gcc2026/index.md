@@ -50,7 +50,7 @@ subsites: [all, all-eu]
 <div class="card-deck lead">
 
   <!-- About GCC -->
-  <div class="card" style="min-width: 30%; max-width: 40rem;">
+  <div class="card" style="min-width: 30%; max-width: 32.2%;">
     <img src="/images/events/gcc2026/cartoon-conference-v2.png" class="card-img-top" alt="GCC conference series" />
     <div class="card-header">About GCC conference series</div>
 

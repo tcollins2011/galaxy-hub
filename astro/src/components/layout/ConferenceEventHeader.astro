@@ -1,0 +1,27 @@
+---
+/**
+ * ConferenceEventHeader
+ *
+ * Renders the header for multi-page conference events that follow the header.md convention.
+ * The insert contains a banner image (full-width conference hero) and a horizontal nav strip.
+ *
+ * CONVENTION: any event with content/events/{root}/header.md gets this layout automatically
+ * when rendered through the [..slug].astro event template. Future conferences just need to
+ * create that file — no code changes required.
+ *
+ * Usage:
+ *   <ConferenceEventHeader>
+ *     <HeaderContent />   ← the rendered header insert component (banner + nav)
+ *   </ConferenceEventHeader>
+ *
+ * The insert is expected to render:
+ *   1. A banner image (linked to the conference home page)
+ *   2. A .linkbox-horizontal div with navigation links separated by "|" pipes
+ *
+ * CSS for this component lives in bootstrap-compat.css under .conf-event-header.
+ * All visual customisation happens there — this component is intentionally minimal.
+ */
+---
+<header class="conf-event-header not-prose" role="banner">
+  <slot />
+</header>

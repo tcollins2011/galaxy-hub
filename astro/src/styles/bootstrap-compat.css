@@ -27,8 +27,9 @@
   &.card-deck {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    align-items: stretch; /* equal-height cards within each row */
   }
 
   &.card {
@@ -36,12 +37,13 @@
     display: flex;
     flex-direction: column;
     min-width: 12rem;
-    max-width: 20rem;
+    max-width: none; /* let inline styles or flex sizing control width */
     flex: 1 1 auto;
     background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.125);
+    border: 1px solid #dee2e6;
     border-radius: 0.5rem;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
 
     /* Card content that's not in card-body still needs padding */
     > p,
@@ -57,10 +59,13 @@
   }
 
   &.card-header {
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 1rem;
     margin-bottom: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: #25537b;
+    color: #ffffff;
+    border-bottom: none;
     font-weight: 600;
+    font-size: 0.95rem;
 
     &:first-child {
       border-radius: calc(0.5rem - 1px) calc(0.5rem - 1px) 0 0;
@@ -89,7 +94,9 @@
 
   &.card-img-top {
     width: 100%;
-    height: 180px;
+    /* Fixed height ensures all card images are the same size regardless of card width.
+       object-fit: cover crops to fill without distortion. */
+    height: 220px;
     object-fit: cover;
     border-top-left-radius: calc(0.5rem - 1px);
     border-top-right-radius: calc(0.5rem - 1px);
@@ -99,6 +106,25 @@
     width: 100%;
     border-bottom-left-radius: calc(0.5rem - 1px);
     border-bottom-right-radius: calc(0.5rem - 1px);
+  }
+
+  /* Content divs inside cards that lack the .card-body class.
+     Pattern used by event travel/attraction cards:
+     <div class="card"><img.card-img-top /><div class="card-header" />
+     <div style="font-size:0.9rem;">text + <small>photo credit</small></div></div>  */
+  &.card > div:not(.card-header):not(.card-body):not(.card-footer) {
+    padding: 0.75rem 1rem;
+    flex: 1;
+    line-height: 1.6;
+  }
+
+  /* Photo / content credits inside cards */
+  &.card small {
+    display: block;
+    margin-top: 0.75rem;
+    color: #6c757d;
+    font-size: 0.78rem;
+    line-height: 1.4;
   }
 
   /* Alert Components */
@@ -341,6 +367,14 @@
 
   &.table-hover tbody tr:hover {
     background-color: rgba(0, 0, 0, 0.075);
+  }
+}
+
+/* Card-deck responsive stacking: single column on small screens */
+@media (max-width: 640px) {
+  .bs-compat.card-deck > .bs-compat.card {
+    min-width: 100% !important;
+    max-width: 100% !important;
   }
 }
 
@@ -790,9 +824,33 @@
   margin-right: auto !important;
 }
 
-/* Note: my-*, mx-*, px-*, py-* utilities intentionally not defined here
-   to avoid conflicts with Tailwind's spacing scale. Content using these
-   Bootstrap classes will get Tailwind's values instead, which are close enough. */
+/* Bootstrap my-* / mx-* / py-* / px-* spacing utilities.
+   Tailwind v4 picks up these class names from content files but uses its own
+   scale (my-5 = 1.25rem vs Bootstrap's 3rem). We override with !important so
+   Bootstrap-authored content gets the expected Bootstrap spacing. */
+.my-1 { margin-top: 0.25rem !important; margin-bottom: 0.25rem !important; }
+.my-2 { margin-top: 0.5rem !important;  margin-bottom: 0.5rem !important;  }
+.my-3 { margin-top: 1rem !important;    margin-bottom: 1rem !important;    }
+.my-4 { margin-top: 1.5rem !important;  margin-bottom: 1.5rem !important;  }
+.my-5 { margin-top: 3rem !important;    margin-bottom: 3rem !important;    }
+
+.mx-1 { margin-left: 0.25rem !important; margin-right: 0.25rem !important; }
+.mx-2 { margin-left: 0.5rem !important;  margin-right: 0.5rem !important;  }
+.mx-3 { margin-left: 1rem !important;    margin-right: 1rem !important;    }
+.mx-4 { margin-left: 1.5rem !important;  margin-right: 1.5rem !important;  }
+.mx-5 { margin-left: 3rem !important;    margin-right: 3rem !important;    }
+
+.py-1 { padding-top: 0.25rem !important; padding-bottom: 0.25rem !important; }
+.py-2 { padding-top: 0.5rem !important;  padding-bottom: 0.5rem !important;  }
+.py-3 { padding-top: 1rem !important;    padding-bottom: 1rem !important;    }
+.py-4 { padding-top: 1.5rem !important;  padding-bottom: 1.5rem !important;  }
+.py-5 { padding-top: 3rem !important;    padding-bottom: 3rem !important;    }
+
+.px-1 { padding-left: 0.25rem !important; padding-right: 0.25rem !important; }
+.px-2 { padding-left: 0.5rem !important;  padding-right: 0.5rem !important;  }
+.px-3 { padding-left: 1rem !important;    padding-right: 1rem !important;    }
+.px-4 { padding-left: 1.5rem !important;  padding-right: 1.5rem !important;  }
+.px-5 { padding-left: 3rem !important;    padding-right: 3rem !important;    }
 
 .p-0 {
   padding: 0 !important;
@@ -999,18 +1057,79 @@
 }
 
 /* ==========================================================================
-   Event Sub-page Navigation (header.md inserts: banner + linkbox-horizontal)
-   Used by GCC, GCCBOSC, and other multi-page events
+   Conference Event Header
+   Applied via ConferenceEventHeader.astro to any multi-page conference event.
+   Convention: events with content/events/{root}/header.md use this layout automatically.
+   The insert renders: [banner image] + [.linkbox-horizontal nav with "|" separators]
    ========================================================================== */
 
-/* Wrapper rendered by the event page template for header inserts */
-.event-subnav img {
+/* Component wrapper — collapse whitespace between banner image and nav bar */
+.conf-event-header {
+  line-height: 0;
+}
+
+/* Banner image — full-width conference hero */
+.conf-event-header img {
   width: 100%;
   height: auto;
   display: block;
 }
 
-/* Horizontal navigation bar (replaces Gridsome linkbox-horizontal) */
+/* Conference navigation bar — dark, sticky, prominent */
+.conf-event-header .linkbox-horizontal {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: #2c3143;        /* galaxy-dark — matches site sidebar */
+  border: none;
+  border-bottom: 3px solid #ffd700; /* galaxy-gold accent line */
+  padding: 0;
+  white-space: nowrap;
+  overflow-x: auto;
+  line-height: normal;
+  margin-bottom: 0;
+  scrollbar-width: none;            /* hide scrollbar on Firefox */
+}
+
+.conf-event-header .linkbox-horizontal::-webkit-scrollbar {
+  display: none;                    /* hide scrollbar on Chrome/Safari */
+}
+
+/* The insert source uses "|" pipe chars as separators between <a> links.
+   These render as text nodes inside the <p> wrapper. Setting font-size: 0
+   on <p> hides them; the <a> links restore their own font-size. */
+.conf-event-header .linkbox-horizontal > p {
+  margin: 0;
+  padding: 0;
+  font-size: 0;      /* hides pipe separator text nodes */
+  color: transparent;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.conf-event-header .linkbox-horizontal a {
+  font-size: 0.875rem;               /* restore font-size overridden by parent */
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  padding: 0.72rem 1rem;
+  display: inline-block;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border-right: 1px solid rgba(255, 255, 255, 0.10);
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.conf-event-header .linkbox-horizontal a:hover {
+  color: #ffd700;
+  background-color: rgba(255, 255, 255, 0.08);
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Linkbox Horizontal (generic fallback — non-conference inserts, sidebars)
+   The .conf-event-header rules above take precedence when inside the component.
+   ========================================================================== */
+
 .linkbox-horizontal {
   background-color: #f8f9fa;
   padding: 0.5rem 1rem;
@@ -1046,4 +1165,86 @@
 
 .trim-p.linkbox-horizontal > p {
   line-height: normal;
+}
+
+/* ==========================================================================
+   Hero / CTA Section (event main pages — large centered intro block)
+   The preprocessor adds 'bs-compat' to elements with Bootstrap classes.
+   - <div class="lead"> becomes <div class="bs-compat lead">
+   - <a class="btn btn-primary"> becomes <a class="bs-compat btn btn-primary">
+   ========================================================================== */
+
+/* Lead paragraph in event hero: softer color, slightly smaller than default 1.25rem */
+.bs-compat.lead {
+  color: #374151;
+  line-height: 1.7;
+}
+
+/* Comfortable spacing between inline CTA buttons */
+a.bs-compat.btn {
+  margin: 0.25rem 0.35rem;
+}
+
+/* ==========================================================================
+   Speaker / Session Profile Tables (Highlighted Talks pages)
+   The pattern is: <table><tbody><tr class="lead text-left">
+                     <td>photo</td><td>name + bio</td>
+                   </tr></tbody></table>
+   The preprocessor adds 'bs-compat' to the <tr> because it has class "lead".
+   So the row becomes: <tr class="bs-compat lead text-left">.
+   Render these rows as profile cards instead of raw bordered table cells.
+
+   The <table> and <tbody> elements retain their table display model by default,
+   which prevents border-radius and proper flex layout from working on the <tr>.
+   We break the table model with :has() so each row becomes a true flex container.
+   ========================================================================== */
+
+/* Break table model so display:flex + border-radius work on the <tr> */
+table:has(tr.bs-compat.lead.text-left) {
+  display: block;
+  border: none !important;
+  background: transparent !important;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+table:has(tr.bs-compat.lead.text-left) tbody {
+  display: block;
+}
+
+tr.bs-compat.lead.text-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1.25rem;
+  background-color: #f8fafc !important; /* override inline style="background-color: white" */
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+tr.bs-compat.lead.text-left > td {
+  border: 0 !important;
+  padding: 0;
+}
+
+/* Photo cell — fixed size, circular crop */
+tr.bs-compat.lead.text-left > td:first-child {
+  flex-shrink: 0;
+  width: 140px;
+}
+
+tr.bs-compat.lead.text-left > td:first-child img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #25537b;
+}
+
+/* Text / bio cell */
+tr.bs-compat.lead.text-left > td:last-child {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #374151;
 }
